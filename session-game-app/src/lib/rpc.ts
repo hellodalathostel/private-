@@ -7,9 +7,37 @@ async function rpc<T>(functionName: string, args: Record<string, unknown> = {}):
   return data as T
 }
 
+export interface DemoProvisionResult {
+  session_id: string
+  session_status: string
+  participant_id: string
+  invite: {
+    invite_id: string
+    session_id: string
+    participant_id: string
+    invite_token: string
+    email_restriction: string | null
+    expires_at: string
+  }
+}
+
+export interface InviteClaimResult {
+  status: 'claimed'
+  session_id: string
+  participant_id: string
+  session_role: 'sub'
+}
+
 export const api = {
   getBootstrap: () => rpc<AppBootstrap>('get_frontend_bootstrap'),
   listMySessions: () => rpc<AppBootstrap['sessions']>('get_my_session_directory'),
+  createDemoSessionWithInvite: (name: string, subEmail?: string | null) => rpc<DemoProvisionResult>('create_demo_session_with_invite', {
+    target_name: name,
+    target_sub_email: subEmail?.trim() || null,
+  }),
+  claimSessionInvite: (inviteToken: string) => rpc<InviteClaimResult>('claim_session_invite', {
+    target_invite_token: inviteToken.trim(),
+  }),
   getDomControlRoom: (sessionId: string, recentEventLimit = 50) => rpc<DomControlRoom>('get_dom_control_room', {
     target_session_id: sessionId,
     recent_event_limit: recentEventLimit,
