@@ -5,15 +5,15 @@ Private React/TypeScript frontend for the `session-game-core` Supabase project.
 ## Implemented in v0.9
 
 - Supabase Auth with password and magic-link login.
-- Role-aware session directory using `get_app_bootstrap`.
+- Role-aware session directory using `get_frontend_bootstrap`.
 - Dom Control Room using `get_dom_control_room`.
 - Sub Dashboard using `get_my_session_state`.
 - Idempotent operator commands using `execute_operator_command`.
 - Optimistic concurrency through `state_revision`.
-- Realtime invalidation for sessions, turns, tasks, safety, consent, debt and commands.
+- Realtime invalidation for sessions, turns, tasks, safety, consent, debt, ranking and commands.
 - Safety controls for Yellow, Red, session pause and participation withdrawal.
 - Operator alert acknowledgement.
-- Private paid task-view access for eligible Sub participants.
+- Private paid task-view access for eligible Sub participants before a task starts.
 - Responsive desktop/mobile shell without a UI framework.
 
 ## Local setup
@@ -36,6 +36,7 @@ Never commit service-role keys, database passwords, access tokens or `.env.local
 ## Production build
 
 ```bash
+npm run lint
 npm run typecheck
 npm run build
 npm run preview
@@ -43,12 +44,14 @@ npm run preview
 
 The generated static app is written to `dist/` and can be deployed to Vercel, Netlify, Cloudflare Pages or any static host with SPA fallback to `index.html`.
 
+GitHub Actions runs lint, typecheck and production build for changes under `session-game-app/`.
+
 ## Required Supabase RPC surface
 
 Client-facing RPCs:
 
-- `get_app_bootstrap`
-- `list_my_sessions`
+- `get_frontend_bootstrap`
+- `get_my_session_directory`
 - `get_dom_control_room`
 - `get_my_session_state`
 - `execute_operator_command`
