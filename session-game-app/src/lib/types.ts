@@ -1,6 +1,6 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
-export type SessionRole = 'dom' | 'sub' | 'observer'
+export type SessionRole = 'dom' | 'sub' | 'observer' | 'system_admin'
 export type SessionStatus = 'setup' | 'consent_review' | 'ready' | 'running' | 'paused' | 'ended' | 'cancelled'
 
 export interface SessionDirectoryItem {
