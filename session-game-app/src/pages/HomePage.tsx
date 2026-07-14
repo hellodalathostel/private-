@@ -16,7 +16,9 @@ export function HomePage() {
   return <AppShell title="Session Directory" subtitle="Chọn vai trò và session cần mở">
     <section className="hero-panel"><div><span className="eyebrow">Authenticated workspace</span><h1>{bootstrap.data.user.display_name ?? bootstrap.data.user.email ?? 'Session Game'}</h1><p>{bootstrap.data.sessions.length} session có thể truy cập.</p></div></section>
     <section className="card-grid">{bootstrap.data.sessions.map((session) => {
-      const route = session.session_role === 'dom' ? `/dom/${session.session_id}` : `/sub/${session.session_id}`
+      const route = session.session_role === 'dom' || session.session_role === 'system_admin'
+        ? `/dom/${session.session_id}`
+        : `/sub/${session.session_id}`
       return <Link className="session-card" to={route} key={`${session.session_id}:${session.session_role}`}>
         <div className="section-heading compact"><h2>{session.name}</h2><StatusPill value={session.status} /></div>
         <dl className="metric-list"><div><dt>Vai trò</dt><dd>{session.session_role}</dd></div><div><dt>Vòng</dt><dd>{session.current_round}</dd></div><div><dt>Revision</dt><dd>{session.state_revision}</dd></div><div><dt>Mode</dt><dd>{session.mode}</dd></div></dl>
