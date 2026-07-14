@@ -8,8 +8,8 @@ async function rpc<T>(functionName: string, args: Record<string, unknown> = {}):
 }
 
 export const api = {
-  getBootstrap: () => rpc<AppBootstrap>('get_app_bootstrap'),
-  listMySessions: () => rpc<AppBootstrap['sessions']>('list_my_sessions'),
+  getBootstrap: () => rpc<AppBootstrap>('get_frontend_bootstrap'),
+  listMySessions: () => rpc<AppBootstrap['sessions']>('get_my_session_directory'),
   getDomControlRoom: (sessionId: string, recentEventLimit = 50) => rpc<DomControlRoom>('get_dom_control_room', {
     target_session_id: sessionId,
     recent_event_limit: recentEventLimit,
