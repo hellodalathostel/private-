@@ -14,12 +14,14 @@ export function SafetyOverlay({ alerts }: { alerts: OperatorAlert[] }) {
 
   if (criticalAlerts.length === 0 || dismissedSignature === alertSignature) return null
 
-  const alert = criticalAlerts[0]
+  const currentAlert = criticalAlerts.at(0)
+  if (!currentAlert) return null
+
   return <div className="safety-overlay" role="alertdialog" aria-modal="true"><div className="safety-card">
-    <span className="eyebrow">Safety priority</span><h2>{alert.title}</h2>
-    <p>{alert.participant_name ? `${alert.participant_name}: ` : ''}{alert.details ?? 'Cần kiểm tra ngay trước khi tiếp tục.'}</p>
+    <span className="eyebrow">Safety priority</span><h2>{currentAlert.title}</h2>
+    <p>{currentAlert.participant_name ? `${currentAlert.participant_name}: ` : ''}{currentAlert.details ?? 'Cần kiểm tra ngay trước khi tiếp tục.'}</p>
     {criticalAlerts.length > 1 ? <p className="notice warning">Có {criticalAlerts.length} cảnh báo chưa xác nhận. Danh sách đầy đủ nằm trong Control Room.</p> : null}
-    <p className="muted">{new Date(alert.occurred_at).toLocaleString('vi-VN')}</p>
+    <p className="muted">{new Date(currentAlert.occurred_at).toLocaleString('vi-VN')}</p>
     <button className="button button-danger" onClick={() => setDismissedSignature(alertSignature)}>Đã nhìn thấy — tiếp tục vào Control Room</button>
   </div></div>
 }
